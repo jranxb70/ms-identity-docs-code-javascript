@@ -1,4 +1,6 @@
 import { graphConfig } from "./authConfig";
+import { BrowserAuthError, InteractionRequiredAuthError } from "@azure/msal-browser";
+
 
 /**
  * Attaches a given access token to a MS Graph API call. Returns information about the user
@@ -17,5 +19,14 @@ export async function callMsGraph(accessToken) {
 
     return fetch(graphConfig.graphMeEndpoint, options)
         .then(response => response.json())
-        .catch(error => console.log(error));
+        .catch(
+            error => {
+                console.log(error);
+                if (error.isInstanceOf(InteractionRequiredAuthError)) {
+
+                }
+                else if (error.isInstanceOf(BrowserAuthError)) {
+
+                }
+            });
 }
