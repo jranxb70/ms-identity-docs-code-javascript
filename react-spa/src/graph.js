@@ -1,5 +1,4 @@
 import { graphConfig } from "./authConfig";
-import { BrowserAuthError, InteractionRequiredAuthError } from "@azure/msal-browser";
 
 
 /**
@@ -22,11 +21,5 @@ export async function callMsGraph(accessToken) {
         .catch(
             error => {
                 console.log(error);
-                if (error.isInstanceOf(InteractionRequiredAuthError)) {
-
-                }
-                else if (error.isInstanceOf(BrowserAuthError)) {
-
-                }
             });
 }

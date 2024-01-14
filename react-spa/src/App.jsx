@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { PageLayout } from './components/PageLayout';
 import { loginRequest } from './authConfig';
@@ -6,6 +6,7 @@ import { callMsGraph } from './graph';
 import { ProfileData } from './components/ProfileData';
 
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
+import { BrowserAuthError, InteractionRequiredAuthError } from "@azure/msal-browser";
 import './App.css';
 import Button from 'react-bootstrap/Button';
 
@@ -26,6 +27,16 @@ const ProfileContent = () => {
             })
             .then((response) => {
                 callMsGraph(response.accessToken).then((response) => setGraphData(response));
+            })
+            .catch(error => {
+                if (error.isInstanceOf(InteractionRequiredAuthError)) {
+                    console.log("App.jsx: " + error);
+
+                }
+                else if (error.isInstanceOf(BrowserAuthError)) {
+                    console.log("App.jsx: " + error);
+
+                }
             });
     }
 
